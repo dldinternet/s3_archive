@@ -18,7 +18,7 @@ action :create do
   end
 
   if ::File.exists? local_archive and download
-    s3_md5 = S3FileLib::get_md5_from_s3(new_resource.bucket, remote_path, new_resource.aws_access_key_id, new_resource.aws_secret_access_key, token)
+    s3_md5 = S3FileLib::get_md5_from_s3(new_resource.bucket, nil, remote_path, new_resource.aws_access_key_id, new_resource.aws_secret_access_key, token)
 
     current_md5 = Digest::MD5.file(local_archive).hexdigest
 
@@ -31,7 +31,7 @@ action :create do
     end
   end
   if download
-    body = S3FileLib::get_from_s3(new_resource.bucket, remote_path, new_resource.aws_access_key_id, new_resource.aws_secret_access_key, token).body
+    body = S3FileLib::get_from_s3(new_resource.bucket, nil, remote_path, new_resource.aws_access_key_id, new_resource.aws_secret_access_key, token).body
 
     local_file = file local_archive do
       owner new_resource.user if new_resource.user
